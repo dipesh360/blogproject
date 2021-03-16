@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+<div class="section-title-wrap section-header mt-5">
+  <div class="container">
+    <h2 class="title">Your Favourite Posts </h2>
+    <p class="subtitle">
+      Want to see the what we do for you? Read our daily blog posts and stay up to date
+    </p>
+    <hr>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    {% for p in favourite_posts %}
+    <div class="col-lg-4">
+      <article class="post">
+        <div class="post-thumbnail">
+          <a href="{{ p.get_absolute_url }}"><img src="{{ p.thumbnail.url }}" alt="blog post"></a>
+          <!-- <div class="post-meta">
+            <span>January 22, 2020</span>
+            <span>Posted by Jonathan Pick</span>
+          </div> -->
+        </div>
+        <div class="post-categories">
+          <a href="{% url 'category' p.category|slugify %}">{{p.category}}</a>
+        </div>
+        <div class="post-body">
+          <h5 class="post-title"> <a href="{{ p.get_absolute_url }}">{{ p.title }}</a> </h5>
+          <p class="post-text">{{ p.overview|truncatechars:130 }}</p>
+        </div>
+      </article>
+    </div>
+    {% empty %}
+    <div class="container-fluid">
+      <h3>No Fovourite Posts Found.</h3>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock body %}

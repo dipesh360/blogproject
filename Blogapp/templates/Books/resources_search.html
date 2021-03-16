@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+
+
+<section class="section pt-5 section-padding posts">
+  <div class="container">
+
+    <h2 style="font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 32px;color: #000;">
+      Search results</h2>
+    <p>We Found <strong>{{books.count}} Books</strong> For "{{q_title}}" Keyword</p>
+    <hr>
+
+    <div class="row">
+      <div class="col-lg-12">
+        {% if books %}
+        {% for book in books %}
+        <div class="col-lg-12 col-md-12">
+
+          <article class="post">
+            <div class="row">
+
+              <div class="post-thumbnail col-lg-3 pl-0 col-md-3">
+                <a href="#"><img src="{{book.cover_image.url}}" alt="book-img"></a>
+              </div>
+
+              <div class="col-lg-9 col-md-9">
+
+                <div class="post-body">
+                  <h5 class="post-title" style="word-spacing: 5px;"> <a>{{book.title}}</a> </h5>
+                  <p class="post-text text-justify">
+                    {{book.summary|truncatechars:600|safe}}
+                  </p>
+                  {% if request.user.is_authenticated %}
+                  <a href="{{book.pdf.url}}" class="btn btn-success btn-sm"
+            download="{{ data.document.url }}">Download</a>
+                  {% else %}
+                  <hr>
+                  <li class="nav-item">
+                    <p>If you want to download this book Please login to your Account </p>
+                    <a href="{% url 'signup' %}" class="btn btn-sm btn-info text-light">Signup</a>
+                    <a href="{% url 'login' %}" class="btn btn-sm btn-success text-light">Login</a>
+                  </li>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>Sorry, <b>{{q_title}}</b> does not exists !!!</p>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock body %}

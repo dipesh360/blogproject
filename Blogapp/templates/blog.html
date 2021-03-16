@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+{% if messages %}
+{% for mess in messages %}
+<div class="alert alert-success mb-0" role="alert">
+  {{mess}}
+</div>
+{% endfor %}
+
+{% endif %}
+
+
+
+
+<div class="subheader bg-cover dark-overlay dark-overlay-2">
+  <div class="container">
+    <div class="subheader-inner">
+      <h1>Elevate your programming <br />skills</h1>
+      <p>
+        codeDM provides free guides, resources, articles about web
+        development and programming languages.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- searchbar -->
+<div class="searchbar container">
+
+  <form class="search" action="{% url 'search' %}" method="GET">
+    <input type="text" class="searchTerm" name="q" placeholder="Search articles . . ." required>
+    <button type="submit" class="searchButton"><i class="fa fa-search"></i></button>
+  </form>
+
+</div>
+
+<!-- main blog start -->
+<section class="section pt-0 section-padding posts">
+  <div class="container">
+    <div class="section-title-wrap section-header">
+      <h2 class="title">From My Blog </h2>
+      <p class="subtitle">
+        Want to see the what we do for you? Read our daily blog posts and stay up to date
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-8">
+
+        <div class="row">
+
+          {% for post in posts %}
+
+          <div class="col-lg-12">
+            <article class="post post-2">
+              <div class="post-thumbnail">
+                <a href="#"> <img src="{{post.thumbnail.url}}" alt="blog-img"> </a>
+              </div>
+              <div class="post-body">
+                <div class="post-categories">
+                  <a href="{% url 'category' post.category|slugify %}">{{post.category}}</a>
+                </div>
+                <h5 class="post-title"> <a href="{{ post.get_absolute_url }}">{{post.title}}</a> </h5>
+                <p class="post-text">
+                  {{post.overview |truncatechars:190}}
+                </p>
+                <div class="post-meta" style="display: flex; flex-wrap: wrap; justify-content: center;">
+                  <span class="mr-3 mb-2"> <i class="fa fa-calendar" aria-hidden="true"></i>{{post.time_upload|date:"F d, Y"}}</span>
+                  <span class="mr-3 mb-2"> <i class="fa fa-user" aria-hidden="true"></i>By {{post.author}}</span>
+                  <span class="mr-3 mb-2"><i class="fa fa-eye" aria-hidden="true"></i>{{post.read}} View{{post.read|pluralize}}</span>
+                </div>
+              </div>
+            </article>
+          </div>
+          {% endfor %}
+        </div>
+
+        <nav aria-label="Page navigation example">
+
+          <ul class="pagination justify-content-center">
+            {% if posts.has_previous %}
+            <li class="page-item">
+              <a href="?page={{ posts.previous_page_number }}" class="page-link">&laquo;</a>
+            </li>
+            {% endif %}
+
+            {% for p in page_range %}
+            {% if posts.number == p %}
+            <li class="page-item active">
+              <a href="?page={{ p }}" class="page-link">{{ p }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+              <a href="?page={{ p }}" class="page-link">{{ p }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if posts.has_next %}
+            <li class="page-item">
+              <a href="?page={{ posts.next_page_number }}" class="page-link">&raquo;</a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+
+
+
+      <div class="col-lg-4">
+        <div class="sidebar">
+          
+          <div class="sidebar-widget">
+            {% include 'trending_post_sidebar.html' %}
+          </div>
+
+          <div class="sidebar-widget-category">
+            {% include 'category_sidebar_section.html' %}
+          </div>
+
+          <div class="sidebar-widget">
+            {% include 'fb_page_sidebar.html' %}
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="section pt-0 section-padding posts">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        
+          <h2 class="mb-4 page-title">Popular Posts</h2>
+          {% for pop_post in popular_posts|slice:":3" %}
+          <div class="row mb-5">
+
+            <div class="col-lg-3">
+              <div class="pop_post_img">
+                <img src="{{pop_post.thumbnail.url}}" style="border-radius: 8px;" class="img-fluid">
+              </div>
+            </div>
+
+            <div class="col-lg-9">
+              <div class="pop_post_flex">
+                <p><i class="fa fa-calendar" aria-hidden="true" style="font-size: 18px;"></i> {{pop_post.time_upload|date:"F d, Y"}}</p>
+                <p><i class="fa fa-user-o" aria-hidden="true" style="font-size: 18px;"></i> By {{pop_post.author}}</p>
+                <p><i class="fa fa-thumbs-o-up" aria-hidden="true" style="font-size: 18px;"></i> {{pop_post.total_likes}} Like{{pop_post.read|pluralize}}</p>
+                <p><i class="fa fa-eye" aria-hidden="true" style="font-size: 18px;"></i>  {{pop_post.read}} View{{pop_post.read|pluralize}}</p>
+                <p></p>
+              </div>
+
+              <h3 class="fav_post_title"><a href="{% url 'post_detail' pop_post.id pop_post.slug %}">{{pop_post.title}}</a></h3>
+              <p style="line-height: 1.5;">{{pop_post.overview|truncatechars:130}}</p>
+
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- newsletter -->
+<section class="section light-bg bg-cover">
+  <div class="container">
+    <div class="section-title-wrap section-header text-center">
+      <h2 class="title">Subscribe to My Newsletter</h2>
+      <p class="subtitle">
+        Get access to my latest articles by joining the newsletter
+      </p>
+    </div>
+
+    <form method="POST" action="{% url 'newsletter' %}" class="ct-newsletter">
+
+      {% csrf_token %}
+      <input type="email" class="form-control" placeholder="Enter your email address" name="email" required>
+      <button type="submit" class="btn-custom primary">Submit<i class="fa fa-paper-plane"
+          aria-hidden="true"></i></button>
+    </form>
+
+  </div>
+</section>
+
+{% endblock %}

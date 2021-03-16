@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% if messages %}
+{% for mess in messages %}
+<div class="alert alert-success" role="alert">
+  {{mess}}
+</div>
+{% endfor %}
+
+{% endif %}
+<div class="header2">
+
+  <div class="header2__left">
+    <h1 class="header2__heading">
+      Welcome to<br>
+      <strong>codeDM!</strong>
+    </h1>
+    <h3 class="header2__subheading">
+      <p>Are you beginning your Software Engineering career?</p>
+      <p>I provide my best Career tips and resources in the newsletter.</p>
+    </h3>
+
+    <div>
+      <div class="header2__buttons">
+        <a href="#subscribe" class="header2__button">Subscribe Now!</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="header2__right">
+    <img src="{% static 'images/home__vector.png' %}" draggable="false">
+  </div>
+
+</div>
+
+<section class="home__middle__section">
+  <div class="about__codedm mb-100">
+    <h2>This is codeDM</h2>
+    <p>A platform for developers, that provides you with a personalised curation service on programming topics. <br>Use
+      it to read quality articles on programming. Not for content-marketing disguised as programming tutorials. Not for
+      advertisement blended with sincerely interesting pieces.</p>
+  </div>
+  <div class="what__about__today mb-50">
+    <h2>Today...</h2>
+    <p>Today, it feels like most articles are trying to sell you something. They are, as they cannot reach you for free.
+      😟
+      However, there is a tonne of programing contents out there. The problem is finding truly insightful pieces based
+      on your personal needs is time-consuming.
+    </p>
+  </div>
+  <div class="what__about__tomorrow mb-50">
+    <h2>Tomorrow...</h2>
+    <p>With codeDM, we want to change that. 😊
+      We want quality writings on coding blog to be freely available to everyone. We want to empower the programmers to
+      write elegant, clearn and reusable code.
+    </p>
+  </div>
+
+  <ul class="how__we__achieve mb-50">
+    <li>How?</li>
+    <ul class="inner__how">
+      <li><span class="check">&#10003;</span>&nbsp;&nbsp;You can access hand-written cheatsheets and programming books
+        absolutely free.</li>
+      <li><span class="check">&#10003;</span>&nbsp;&nbsp;We notify you when we post new articles on programming.</li>
+      <li><span class="check">&#10003;</span>&nbsp;&nbsp;codeDM will make every article available for free.</li>
+    </ul>
+  </ul>
+  <p class="curious">If you curious about what is our mission? then checkout <a href="{% url 'about' %}"
+      style="color:  #0b132a; text-decoration: 1px underline wavy; text-decoration-color: #ff656a; font-weight: bold;">About
+      us</a> section.</p>
+</section>
+
+
+<section class="section light-bg bg-cover" id="subscribe">
+  <div class="container">
+    <div class="section-title-wrap section-header text-center">
+      <h2 class="title">Subscribe to My Newsletter</h2>
+      <p class="subtitle">
+        Get access to my latest articles by joining the newsletter
+      </p>
+    </div>
+
+    <form action="{% url 'newsletter' %}" class="ct-newsletter" method="post">
+      {% csrf_token %}
+      <input type="email" class="form-control" placeholder="Enter your email address" name="email" value="" required>
+      <button type="submit" class="btn-custom primary" name="button"> Submit <i class="fa fa-paper-plane"
+          aria-hidden="true"></i></button>
+    </form>
+
+  </div>
+</section>
+
+{% endblock %}

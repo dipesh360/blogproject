@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+<div class="container">
+  <h2 class="mt-5 mb-4">Privacy policy</h2>
+  <hr>
+  <div class="row mb-5">
+    <div class="col-lg-8 terms_of_services">
+      <p>Privacy Policy for codeDM</p>
+      <p>One of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that are collected and recorded by CodingNepal and how we use it.</p>
+      <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
+      <p>This Privacy Policy applies only to our online activities and is valid for visitors to our website with regards to the information that they shared and/or collect in CodingNepal. This policy is not applicable to any information collected offline or via channels other than this website.</p>
+      <p>Consent<br>
+        By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
+        <p>Information we collect<br>
+          The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information.</p>
+      <p>If you contact us directly, we may receive additional information about you such as your name, email address, phone number, the contents of the message and/or attachments you may send us, and any other information you may choose to provide.</p>
+      <p>When you register for an Account, we may ask for your contact information, including items such as username, email address.</p>
+
+      <h3>How we use your information</h3>
+      
+      <p>We use the information we collect in various ways, including:</p>
+        <ul class="inner__how" style="font-size: 15px;">
+          <li><span class="check" style="font-size: 20px;">✓</span>&nbsp;&nbsp;Improve, personalize, and expand our website.</li>
+          <li><span class="check" style="font-size: 20px;">✓</span>&nbsp;&nbsp;Understand and analyze how you use our website.</li>
+          <li><span class="check" style="font-size: 20px;">✓</span>&nbsp;&nbsp;Develop new products, services, features, and functionality</li>
+          <li><span class="check" style="font-size: 20px;">✓</span>&nbsp;&nbsp;Send you emails.</li>
+          
+        </ul>
+
+        <p>You can choose to disable cookies through your individual browser options. To know more detailed information about cookie management with specific web browsers, it can be found at the browsers' respective websites.</p>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="sidebar">
+        <div class="sidebar-widget">
+          {% include 'trending_post_sidebar.html' %}
+        </div>
+        <div class="sidebar-widget-category">
+          {% include 'category_sidebar_section.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock body %}

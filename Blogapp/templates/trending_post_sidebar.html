@@ -1,0 +1,10 @@
+<h5>Trending posts</h5>
+{% for trend in trends %}
+<article class="media">
+  <a href="{% url 'post_detail' trend.id trend.slug %}"><img src="{{trend.thumbnail.url}}" alt="post"></a>
+  <div class="media-body">
+    <h6> <a href="{% url 'post_detail' trend.id trend.slug %}">{{trend.title}}</a> </h6>
+    <p>{{trend.time_upload|timesince}} ago</p>
+  </div>
+</article>
+{% endfor %}

@@ -1,0 +1,83 @@
+<div class="comments-list">
+  {% if user.is_authenticated %}
+
+  <div class="comment-form mb-5">
+    <h4 class="page-title">Leave a Reply</h4>
+    <form method="post" class="comment-form" action=".">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-12 form-group">
+          <textarea class="form-control" placeholder="Type your comment..." name="comm" id="message" rows="7" cols="30"
+            required></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn-custom" name="button">Post comment</button>
+    </form>
+  </div>
+  <ul>
+    <h4 class="comment-counter">{{comments_count}} Comment{{comments_count|pluralize}}</h4>
+
+    {% for cm in comments %}
+    <li class="comment-item">
+      <img src="/media/default_img/avatar.png" alt="comment author">
+      <div class="comment-body">
+        {% if request.user.first_name %}
+        <h5>by {{cm.0.user.first_name|title}}</h5>
+        {% else %}
+        <h5>by {{cm.0.user.username}}</h5>
+        {% endif %}
+        <span>{{cm.0.time}}</span>
+        <p>{{cm.0.comm}}</p>
+        <p id="{{cm.0.id}}">
+          <button onclick="ReplyForm('{{cm.0.id}}')" class="btn reply">Reply</button>
+        </p>
+      </div>
+    </li>
+    <ul class="replied-comments" style="padding-left: 75px;">
+      {% for subc in cm.1 %}
+      <li class="comment-item">
+        <img src="/media/default_img/avatar.png" alt="comment author">
+        <div class="comment-body">
+          {% if request.user.first_name %}
+          <h5>by {{subc.user.first_name|title}}</h5>
+          {% else %}
+          <h5>by {{subc.user.username}}</h5>
+          {% endif %}
+          <span>{{subc.time}}</span>
+          <p>{{subc.comm}}</p>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    </li>
+    {% endfor %}
+  </ul>
+  <script type="text/javascript">
+    function ReplyForm(id) {
+      let elm = `
+      <form method="POST" class="reply-form p-5 bg-light" id="sub_comm" action=".">
+        
+                      {% csrf_token %}
+                      
+                      <div class="form-group ">
+                        
+                        <input type='text' value='${id}' name = 'comm_id' style="display:none;" readonly/>
+                          <label for="message">Comment</label>
+                          <textarea name="comm" id="message" cols="30" rows="3" class="form-control" required></textarea>
+                      </div>
+                      <div class="form-group">
+                        <button type="submit" class="btn">Post Comment</button>
+                      </div>
+                    </form>`;
+      document.getElementById(id).innerHTML = elm;
+    }
+  </script>
+
+  {% else %}
+  <li class="nav-item text-center">
+    <p class="text-center">To give feedback to this article, Please make sure you are login to your Account </p>
+    <a href="{% url 'signup' %}" class="btn btn-sm btn-info text-light">Signup</a>
+    <a href="{% url 'login' %}" class="btn btn-sm btn-success text-light">Login</a>
+  </li>
+  {% endif %}
+</div>

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+
+<section class="section pt-0 section-padding posts">
+  <div class="container">
+
+    <div class="breadcrumb__text">
+
+      <h2>Category : {{category_name}}</h2>
+
+      <div class="breadcrumb__option">
+        <a href="{% url 'blog' %}">blog</a>
+        <span>category</span>
+      </div>
+      <hr>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-8">
+
+        <div class="row">
+
+          {% if category_posts %}
+          {% for post in category_posts %}
+          <div class="col-lg-6 col-md-6">
+            <article class="post">
+              <div class="post-thumbnail">
+                <a href="{% url 'post_detail' post.id post.slug %}"><img src="{{post.thumbnail.url}}"
+                    alt="blog post"></a>
+                <div class="post-meta">
+                  <span></span>
+                  <span>{{post.title}}</span>
+                </div>
+              </div>
+
+              <div class="post-body mt-3">
+                <h5 class="post-title"> <a href="{% url 'post_detail' post.id post.slug %}">{{post.title}}</a> </h5>
+                <p class="post-text">
+                  {{post.overview|truncatechars:125}}
+                </p>
+              </div>
+            </article>
+          </div>
+          {% endfor %}
+          {% else %}
+          <div class="col-lg-12 col-md-12">
+            <p>Sorry, Category : <b>{{category_name}}</b> does not exists !!!</p>
+          </div>
+          {% endif %}
+
+        </div>
+
+      </div>
+
+      <div class="col-lg-4">
+        <div class="sidebar">
+
+          <div class="sidebar-widget">
+            <h5>Recent posts</h5>
+            {% for post in posts %}
+            <article class="media">
+              <a href="#"><img src="{{post.thumbnail.url}}" alt="post"></a>
+              <div class="media-body">
+                <h6> <a href="{% url 'post_detail' post.id post.slug %}">{{post.title}}</a> </h6>
+                <p>{{post.time_upload|timesince}} ago</p>
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+
+          <div class="sidebar-widget">
+            <h5>Popular posts</h5>
+            {% for pop_post in popular_posts|slice:":2" %}
+            <div class="my__fav featured-my__fav">
+              <div class="my__fav-thumbnail">
+                <a href="{% url 'post_detail' pop_post.id pop_post.slug %}">
+                  <img src="{{pop_post.thumbnail.url}}" alt="blog post">
+                </a>
+              </div>
+              <div class="my__fav-body">
+                <h6 class="my__fav-title"> <a
+                    href="{% url 'post_detail' pop_post.id pop_post.slug %}">{{pop_post.title}}</a> </h6>
+                <div class="bottom-meta">
+                  <span><i class="fa fa-calendar" aria-hidden="true"></i> {{pop_post.time_upload|timesince}} ago</span>
+                  <span><i class="fa fa-user" aria-hidden="true"></i> By {{pop_post.author}}</span>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="fb-page mt-4" data-href="https://www.facebook.com/Codedm10-349252386108371/" data-tabs="timeline"
+          data-width="400" data-height="" data-small-header="false" data-adapt-container-width="true"
+          data-hide-cover="false" data-show-facepile="true">
+          <blockquote cite="https://www.facebook.com/Codedm10-349252386108371/" class="fb-xfbml-parse-ignore"><a
+              href="https://www.facebook.com/Codedm10-349252386108371/">Codedm10</a></blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- newsletter -->
+<section class="section light-bg bg-cover">
+  <div class="container">
+    <div class="section-title-wrap section-header text-center">
+      <h2 class="title">Subscribe to My Newsletter</h2>
+      <p class="subtitle">
+        Get access to my latest articles by joining the newsletter
+      </p>
+    </div>
+
+    <form method="POST" action="{% url 'newsletter' %}" class="ct-newsletter">
+
+      {% csrf_token %}
+      <input type="email" class="form-control" placeholder="Enter your email address" name="email" required>
+      <button type="submit" class="btn-custom primary">Submit<i class="fa fa-paper-plane"
+          aria-hidden="true"></i></button>
+    </form>
+
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+<h5>Category</h5>
+<ul>
+  {% for i,j in category_posts %}
+  <li><a href="{% url 'category' i.cat_name|slugify %}">{{i.cat_name|title}}
+
+      <span>
+        {{j}}
+      </span></a></li>
+  {% endfor %}
+
+</ul>

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% load crispy_forms_tags %}
+<div class="container profile_container my-3">
+    <div class="row gutters">
+    
+        <div class="col-lg-3">
+            <div class="card h-100">
+                
+                <div class="user-profile">
+                    <div class="user-avatar mb-3">
+                        {% if request.user.profile.photo %}
+                        <img src="{{ request.user.profile.photo.url }}"  style="display: block; margin: auto;">
+                        {% else %}
+                        <img src="/media/default_img/avatar.png" style="display: block; margin: auto;">
+                        {% endif %}
+                    </div>
+                    
+                    <h3 class="text-dark" style="font-weight: 400; font-size: 16px;text-align: center;">
+                        {% if request.user.first_name and request.user.last_name %}
+                        {{request.user.get_full_name|title}}
+                        {% else %}
+                        {{request.user.username}}
+                        {% endif %}
+                    </h3>
+                </div>
+                <div class="card">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><a href="{% url 'post_favourite_list' %}" style="text-decoration: none;">Your Favoutite Posts</a> </li>
+                      <li class="list-group-item"><a href="{% url 'password_change' %}">Change password</a> </li>
+                      <li class="list-group-item"><a href="{% url 'reset_password' %}">Reset password</a> </li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row gutters">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            
+                            {% if messages %}
+                            {% for mess in messages %}
+                            <div class="alert alert-{{mess.tags}}" role="alert">
+                                {{mess}}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            <h2 class="text-dark mb-2">Personal Details</h2>
+                            
+                            
+                            <hr>
+                            <form action="" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{user_form|crispy}}
+                                {{profile_form|crispy}}
+                                <button type="submit" class="btn-custom-edit mt-3">Save changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

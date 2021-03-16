@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+<!-- Top header -->
+<div class="booksubheader bg-cover dark-overlay dark-overlay-2 ">
+  <div class="container">
+    <div class="subheader-inner">
+      <h1>Search Your Favourite Coding<br /> Books</h1>
+      <p>
+        codeDM provides free guides, resources, articles about web
+        development and programming languages.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- searchbar -->
+<div class="searchbar container mb-3">
+  <form class="search" action="{% url 'booksearch' %}" method="GET">
+    <input type="text" class="searchTerm" name="q" placeholder="Search Keyword..." required>
+    <button type="submit" class="searchButton"><i class="fa fa-search"></i></button>
+  </form>
+</div>
+
+
+<div class="container">
+  <hr>
+  <div class="list_bookcategory">
+    {% for i in category %}
+    <a href="{% url 'resources_detail' i.slug %}">{{i.name}}</a>
+    {% endfor %}
+  </div>
+  <hr>
+</div>
+
+
+<div class="container">
+  <h2 class="page-title my-4">Recommanded Books</h2>
+  <div class="row">
+    {% for recommanded_book in recommanded_books %}
+    <div class="col-lg-2 col-md-3 col-sm-4 mb-5">
+      <a href="{% url 'book_detail' recommanded_book.slug %}"><img src="{{recommanded_book.cover_image.url}}" class="img-fluid rounded img-thumbnail"></a>
+      <p style="font-size: 15px; "class="py-2 mb-0 text-center">by {{recommanded_book.author}}</p>
+    </div>
+
+    {% empty %}
+    <h2>No recommanded_books available !!</h2>
+    {% endfor %}
+
+  </div>
+</div>
+
+{% endblock body %}

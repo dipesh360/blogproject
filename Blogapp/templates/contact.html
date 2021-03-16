@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+{% if messages %}
+{% for mess in messages %}
+<div class="alert alert-success mb-0" role="alert">
+  {{mess}}
+</div>
+{% endfor %}
+
+{% endif %}
+<!-- contact form start -->
+<section class="contact spad">
+    <div class="container">
+        <div class="contact-banner">
+            <h2>Contact us</h2>
+            <p>Have any questions? We'd love to hear from you.</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="contact__widget">
+                    <div class="contact__widget__icon">
+                        <i class="fa fa-map-marker"></i>
+                    </div>
+                    <div class="contact__widget__text">
+                        <h5>Address</h5>
+                        <p>Ahmedabad, gujarat</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="contact__widget">
+                    <div class="contact__widget__icon">
+                        <i class="fa fa-phone"></i>
+                    </div>
+                    <div class="contact__widget__text">
+                        <h5>Hotline</h5>
+                        <p>9586288777, 9696778866</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="contact__widget">
+                    <div class="contact__widget__icon">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <div class="contact__widget__text">
+                        <h5>Email</h5>
+                        <p>dipeshpatel1347@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="contact__content">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="contact__iframe">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29373.765509956145!2d72.61145915030885!3d23.034025530851512!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e868fa8596d0f%3A0xdec188f84761ba05!2sBapunagar%2C%20Ahmedabad%2C%20Gujarat%20380038!5e0!3m2!1sen!2sin!4v1611493588698!5m2!1sen!2sin"
+                             frameborder="0" style="border:0;" allowfullscreen=""
+                            aria-hidden="false" tabindex="0"></iframe>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="contact__form">
+                        <h3>Get in touch</h3>
+                        {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{error}}
+                        </div>
+                        {% endif %}
+                        <form action="{% url 'contact'%}" method="POST">
+                            {% csrf_token %}
+                            <input type="text" class="form-control" placeholder="Name" name="username" value="{{values.username}}">
+                            <input type="text" class="form-control" placeholder="Email" name="email" value="{{values.email}}">
+
+                            <textarea placeholder="Message" class="form-control" name="message"></textarea>
+                            <button type="submit" class="site-btn">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- contact form end -->
+
+{% endblock body %}

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+<div class="login-31">
+  <div class="container">
+    <div class="row login-box">
+      <div class="col-lg-5 bg-color-15 pad-0 none-992 bg-img"></div>
+      <div class="col-lg-7 pad-0 form-info">
+        <div class="form-section align-self-center">
+          <div class="btn-section clearfix">
+            <a href="{% url 'login' %}" class="link-btn active btn-1 active-bg">Login</a>
+            <a href="{% url 'signup' %}" class="link-btn btn-2 default-bg">Register</a>
+          </div>
+          <div class="logo">
+            <h2>codeDM</h2>
+          </div>
+          {% if otp %}
+
+          <h1 class="mb-4">Validate OTP</h1>
+          <p style="font-size: 15px;">Please enter the OTP (one time password) to verify your account. A Code has been
+            sent to Your
+            email.</p>
+          <div class="clearfix"></div>
+          {% if messages %}
+          {% for mess in messages %}
+          <div class="alert alert-{{mess.tags}}" role="alert">
+            {{mess}}
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <form method="POST" class="mt-4">
+            {% csrf_token %}
+            <input type="hidden" name="usr" value="{{usr.username}}">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">OTP</span>
+              </div>
+              <input type="text" class="form-control" placeholder="Enter Your OTP" aria-label="OTP"
+                aria-describedby="basic-addon1" name="otp" autofocus onkeypress="return isNumber(event)"/>
+                <script>
+                  function isNumber(evt) {
+                      evt = (evt) ? evt : window.event;
+                      var charCode = (evt.which) ? evt.which : evt.keyCode;
+                      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                          return false;
+                      }
+                      return true;
+                  }
+              </script>
+            </div>
+            <div class="form-group clearfix">
+              <button type="submit" class="btn-md btn-theme btn-block mt-4">Verify</button>
+            </div>
+            <p class="text-center">Not received your code? <a href="#" class="text-dark"
+                onclick="ReSendOTP('{{usr.username}}', 'resendOTPmess')"><i id="resendOTPmess"
+                  style="text-decoration: underline;">Resend OTP</i></a></p>
+          </form>
+
+          {% else %}
+          <h1>Welcome!</h1>
+          <h3>Sign into your account</h3>
+          <div class="clearfix"></div>
+          {% if messages %}
+          {% for mess in messages %}
+          <div class="alert alert-{{mess.tags}}" role="alert">
+            {{mess}}
+          </div>
+          {% endfor %}
+          {% endif %}
+
+
+          <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy}}
+            
+            <div class="checkbox form-group clearfix">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                <label class="form-check-label" for="inlineCheckbox1">Remember me</label>
+              </div>
+              <a href="{% url 'reset_password' %}" class="forgot-password">Forgot Password</a>
+            </div>
+            <div class="form-group clearfix">
+              <button type="submit" class="btn-md btn-theme btn-block">Login</button>
+            </div>
+          </form>
+          <p>Or Login With</p>
+          <div class="social-list">
+            <a href="#">
+              <i class="fa fa-facebook"></i>
+            </a>
+            <a href="#">
+              <i class="fa fa-twitter"></i>
+            </a>
+            <a href="#">
+              <i class="fa fa-google"></i>
+            </a>
+            <a href="#">
+              <i class="fa fa-linkedin"></i>
+            </a>
+            <a href="#">
+              <i class="fa fa-pinterest"></i>
+            </a>
+            <a href="#">
+              <i class="fa fa-youtube"></i>
+            </a>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

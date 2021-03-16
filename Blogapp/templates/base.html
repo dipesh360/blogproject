@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    {% if title %}
+    {{title}}
+    {% else %}
+    codeDM
+    {% endif %}
+  </title>
+  <link rel="icon" href="{% static 'images/favicon_img/favicon.ico' %}">
+  
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}" />
+  <link rel="stylesheet" href="{% static 'css/style.css'%}" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="{% static 'js/ajax.js' %}"></script>
+</head>
+
+<body>
+  <div id="fb-root"></div>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light header__logo" id="topheader" data-toggle="sticky-onscroll">
+      <a href="{% url 'home' %}" class="navbar-brand ml-4"><i class="fa fa-code" aria-hidden="true"></i>
+        code<span>DM</span></a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse ml-4" id="navbarSupportedContent">
+        {% url 'home' as home %}
+        {% url 'blog' as blog %}
+        {% url 'resources' as resources %}
+        {% url 'about' as about %}
+        {% url 'contact' as contact %}
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item py-2 px-4">
+            <a class="{% if request.path == home %} nav_active {% endif %}" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item py-2 px-4">
+            <a class="{% if request.path == blog %} nav_active {% endif %}" href="{% url 'blog' %}">Blog</a>
+          </li>
+          <li class="nav-item py-2 px-4">
+            <a class="{% if request.path == resources %} nav_active {% endif %}"
+              href="{% url 'resources' %}">Resources</a>
+          </li>
+          <li class="nav-item py-2 px-4">
+            <a class="{% if request.path == about %} nav_active {% endif %}" href="{% url 'about' %}">About</a>
+          </li>
+          <li class="nav-item py-2 px-4">
+            <a class="{% if request.path == contact %} nav_active {% endif %}" href="{% url 'contact' %}">Contact</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+          <!-- check user is authenticated user or not  -->
+          {% if request.user.is_authenticated %}
+
+          <li class="nav-item dropdown ">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <!-- check user model  -->
+
+              <!-- check user has profile pic or not, if it is then we have to show img in navbar else default.png-->
+              {% if request.user.profile.photo %}
+              <img src="{{ request.user.profile.photo.url }}" class="navbar-img">
+              {% else %}
+              <img src="/media/default_img/avatar.png" class="navbar-img">
+              {% endif %}
+              <!-- check if user has first_name, if : show the firstname else: show username -->
+              {% if request.user.first_name %}
+              <span>Hi {{ request.user.first_name|title }}</span>
+              {% else %}
+              <span>Hi {{ request.user.username }}</span>
+              {% endif %}
+
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'edit_profile' %}">My Profile</a>
+              <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+            </div>
+          </li>
+          {% else %}
+          <li class="nav-item text-center">
+            <a href="{% url 'signup' %}" class="btn btn-sm btn-info text-light">Signup</a>
+            <a href="{% url 'login' %}" class="btn btn-sm btn-success text-light">Login</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+
+  {% block body %}
+
+  {% endblock %}
+
+  <footer>
+    <div class="footer-area footer-padding">
+      <div class="container">
+        <div class="row d-flex justify-content-between">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
+            <div class="single-footer-caption mb-50">
+              <div class="single-footer-caption mb-30">
+                <!-- logo -->
+                <div class="footer-logo">
+                  <a href="{% url 'home' %}"><i class="fa fa-code" aria-hidden="true"></i> code<span>DM</span></a>
+                </div>
+                <div class="footer-tittle">
+                  <div class="footer-pera">
+                    <p>codeDM is a blog where you can learn coding and programming.</p>
+                  </div>
+                </div>
+                <!-- social -->
+                <div class="footer-social">
+                  <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                  <a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                  <a href="#"><i class="fa fa-github-square" aria-hidden="true"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-2 col-md-4 col-sm-5">
+            <div class="single-footer-caption mb-50">
+              <div class="footer-tittle">
+                <h4>Navigate</h4>
+                <ul>
+                  <li><a href="{% url 'home' %}">Home</a></li>
+                  <li><a href="{% url 'blog' %}">Blog</a></li>
+                  <li><a href="{% url 'resources' %}">Resources</a></li>
+                  <li><a href="{% url 'about' %}">About</a></li>
+                  <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+            <div class="single-footer-caption mb-50">
+              <div class="footer-tittle">
+                <h4>About</h4>
+                <ul>
+                  <li><a href="{% url 'our_story' %}">Our story</a></li>
+                  <li><a href="{% url 'terms_of_services' %}">Terms of Service</a></li>
+                  <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
+            <div class="single-footer-caption mb-50">
+              <div class="footer-tittle">
+                <h4>Get in Touch</h4>
+                <ul>
+                  <li><a href="#" style="pointer-events: none;"><i class="fa fa-envelope-o" aria-hidden="true"></i>
+                      dipeshpatel1347@gmail.com</a></li>
+                  <li><a href="#" style="pointer-events: none;"><i class="fa fa-phone" aria-hidden="true"></i>
+                      9595868676</a></li>
+                  <li><a href="#" style="pointer-events: none;"><i class="fa fa-map-marker" aria-hidden="true"></i>
+                      Gujarat, India</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- footer-bottom aera -->
+    <div class="footer-bottom-area footer-bg">
+      <div class="container">
+        <div class="footer-border">
+          <div class="row d-flex align-items-center">
+            <div class="col-xl-12 ">
+              <div class="footer-copy-right text-center">
+                <p>Copyright ©
+                  <script>document.write(new Date().getFullYear())</script> All rights reserved | Dipesh Mandanka
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- footer end  -->
+  <!-- back to top -->
+  <a href="#" id="scroll" style="display: none;"><span></span></a>
+
+  <script src="{% static 'js/popper.js' %}"></script>
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script type="text/javascript">
+
+    // scroll to top
+    $(document).ready(function () {
+      $(window).scroll(function () {
+        if ($(this).scrollTop() > 100) {
+          $('#scroll').fadeIn();
+        } else {
+          $('#scroll').fadeOut();
+        }
+      });
+      $('#scroll').click(function () {
+        $("html, body").animate({ scrollTop: 0 }, 1200);
+        return false;
+      });
+    });
+    //  ajax like btn
+    $(document).on('click', '#like', function (event) {
+      event.preventDefault();
+      var pk = $(this).attr('value');
+      $.ajax({
+        type: 'POST',
+        url: '{% url "like_post" %}',
+        data: { 'id': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+        dataType: 'json',
+        success: function (response) {
+          $('#like-section').html(response['form'])
+          console.log($('#like-section').html(response['form']));
+        },
+        error: function (rs, e) {
+          console.log(rs.responseText);
+        },
+      });
+    });
+
+
+// ajax comemnt
+    $(document).on('submit', '.comment-form', function (event) {
+      event.preventDefault();
+      console.log($(this).serialize());
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        dataType: 'json',
+        success: function (response) {
+          $('.main-comment-section').html(response['form']);
+          $('textarea').val('');
+          $('.reply-btn').click(function () {
+            $(this).parent().parent().next('.replied-comments').fadeToggle();
+            $('textarea').val('');
+          });
+        },
+        error: function (rs, e) {
+          console.log(rs.responseText);
+        },
+      });
+    });
+    
+    // ajax reply
+    $(document).on('submit', '.reply-form', function (event) {
+      event.preventDefault();
+      console.log($(this).serialize());
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        dataType: 'json',
+        success: function (response) {
+          $('.main-comment-section').html(response['form']);
+          $('textarea').val('');
+          $('.reply-btn').click(function () {
+            $(this).parent().parent().next('.replied-comments').fadeToggle();
+            $('textarea').val('');
+          });
+        },
+        error: function (rs, e) {
+          console.log(rs.responseText);
+        },
+      });
+    });
+  </script>
+
+  <!-- facebok page -->
+  <script async defer crossorigin="anonymous"
+    src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v9.0&appId=409619666769465&autoLogAppEvents=1"
+    nonce="2JGL9YLi"></script>
+
+  <!-- {% for message in messages %}
+    <script>
+      Swal.fire({
+        "title": "{{message.title}}",
+        "text": "{{message}}",
+        "icon": "{{message.tags}}",
+        "showCloseButton": true,
+        "confirmButtonColor": "#ff656a",
+        "confirmButtonText" : "okay",
+      })
+    </script>
+  {% endfor %} -->
+
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+<div class="container">
+  <h2 class="mt-5 mb-4">Terms and Conditions</h2>
+  <hr>
+  <div class="row">
+    <div class="col-lg-8 terms_of_services">
+      <p>Welcome to codeDM!</p>
+      <p>These terms and conditions outline the rules and regulations for the use of codeDM's Website.</p>
+      <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use codeDM if you
+        do not agree to take all of the terms and conditions stated on this page.</p>
+      <p>Cookies<br>
+      We employ the use of cookies. By accessing codeDM, you agreed to use cookies in agreement with the codeDM's
+      Privacy Policy.</p>
+      <p>Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by
+        our website to enable the functionality of certain areas to make it easier for people visiting our website. Some
+        of our affiliate/advertising partners may also use cookies.</p>
+      <p>You must not
+      Republish material from codeDM
+        Sell, rent or sub-license material from codeDM
+        Reproduce, duplicate or copy material from codeDM
+        Redistribute content from codeDM
+        This Agreement shall begin on the date hereof.</p>
+      <p>Removal of links from our website<br>
+        If you find any link on our Website that is offensive for any reason, you are free to contact and inform us at
+        any moment. We will consider requests to remove links but we are not obligated to or so or to respond to you
+        directly.</p>
+      <p>As long as the website and the information and services on the website are provided free of charge, we will not
+        be liable for any loss or damage of any nature.
+      </p>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="sidebar">
+        <div class="sidebar-widget">
+          {% include 'trending_post_sidebar.html' %}
+        </div>
+        <div class="sidebar-widget-category">
+          {% include 'category_sidebar_section.html' %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+{% endblock body %}

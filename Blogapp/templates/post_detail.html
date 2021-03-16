@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+<section class="post_details">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-4">
+
+        <div class="post-category row left-post-detail">
+          <div class="author_name_text col-lg-12 col-md-12 mb-3">
+            <p><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;by {{post.author}}</p>
+          </div>
+
+          <div class="time_upload_text col-lg-12  col-md-12 mb-3">
+            <p><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;{{post.time_upload|date:"F d, Y"}}</p>
+          </div>
+
+          <div class="category_name_text col-lg-12  col-md-12 mb-3">
+            <p><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp;{{post.category|title}}</p>
+          </div>
+
+          <div class="category_name_text col-lg-12  col-md-12 mb-3">
+            <p><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;&nbsp;{{comments_count}} Comment{{comments_count|pluralize}}</p>
+          </div>
+
+          <div id="favourite-section" class="col-lg-12 mb-3 col-md-12 mb-4">
+            {% if is_favourite %}
+            <a href="{% url 'favourite_post' post.id %}">
+              <i class="fa fa-bookmark" aria-hidden="true"></i>
+            </a>&nbsp;&nbsp;Bookmarked
+
+            {% else %}
+
+            <a href="{% url 'favourite_post' post.id %}">
+              <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+            </a>&nbsp;&nbsp;Bookmark
+
+            {% endif %}
+          </div>
+          <div class="post-category mb-4 col-lg-12 ">
+            <div id="like-section">
+              {% include 'like_section.html' %}
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="col-lg-9 col-md-8">
+        <div class="post-thumbnail">
+          <img src="{{post.thumbnail.url}}" class="img-fluid" alt="post">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <hr>
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="title">{{post.title}}</h2>
+      <hr>
+      <div class="post-content">
+        {{post.body|safe}}
+        <hr>
+        <div class="share-btn-container">
+          <p>Share This: </p>
+          <a href="#" class="facebook-btn"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a href="#" class="twitter-btn"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+          <a href="#" class="pinterest-btn"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+          <a href="#" class="linkedin-btn"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+        </div>
+        <hr>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+
+  <div class="about-author">
+    <h4>About the author</h4>
+    <div class="about-author-inner">
+      <img src="/static/images/portfolio.png" class="img-fluid" alt="author">
+      <div class="about-author-content">
+        <h5>Dipesh Mandanka</h5>
+        <p>
+          I'm the founder of codeDM. I built this site to support developers during their learning journey.
+          Currently i'm doing my last year computer science internship at maxgen technology, Ahmedabad.
+        </p>
+        <ul class="social-media">
+          <li> <a href="#"> <i class="fa fa-facebook-square" aria-hidden="true"></i> </a> </li>
+          <li> <a href="#"> <i class="fa fa-twitter-square" aria-hidden="true"></i></a> </li>
+          <li> <a href="#"> <i class="fa fa-github-square" aria-hidden="true"></i></a> </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- comment section -->
+
+
+<div class="container main-comment-section">
+  {% include 'comments.html' %}
+</div>
+
+{% endblock body %}
