@@ -1,0 +1,2 @@
+# blogproject
+my django project
